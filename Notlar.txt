@@ -1,0 +1,3 @@
+-Abstarct kýsma soyut þeyler interface ler ve base class lar yazýlýr somutlar ise concrete de abstarctler içine refereans tutucular koyulur.Biz böylece uygulamalr arasýndaki baðýmlýklarý minimize ediyoruz
+
+-Concrete klasöründeki class lar veritabanýndaki tablolara karþýlýk gelir
