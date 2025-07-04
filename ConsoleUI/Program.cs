@@ -9,13 +9,22 @@ Console.WriteLine("Hello, World!");
 //SOLID 
 //Open Closed Principle :Yaptığın yazılıma yeni bir özellik ekliyosan mevcuttaki hiç bir koduna dokunamazsın sadece entityframewrok klasörü ekledik
 
-ProductManager productManager = new ProductManager(new EfProductDal());
+//ProductTest();
 
-foreach (var product in productManager.GetByUnitPrice(50, 100))
+//IoC öğrenildiğinde burayı new lemeye gerek kalmayacak
+CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+foreach (var category in categoryManager.GetAll())
 {
-    Console.WriteLine(product.ProductName);
+    Console.WriteLine(category.CategoryName);
 }
 
+static void ProductTest()
+{
+    ProductManager productManager = new ProductManager(new EfProductDal());
 
-
+    foreach (var product in productManager.GetByUnitPrice(50, 100))
+    {
+        Console.WriteLine(product.ProductName);
+    }
+}
 

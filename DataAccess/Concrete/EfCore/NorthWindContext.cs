@@ -24,9 +24,10 @@ namespace DataAccess.Concrete.EfCore
         }
 
         public DbSet<Product> Products { get; set; }
-        public DbSet<Category> Kategoriler { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Customer> Musteriler { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
 
 

@@ -1,3 +1,8 @@
 -Abstarct kýsma soyut þeyler interface ler ve base class lar yazýlýr somutlar ise concrete de abstarctler içine refereans tutucular koyulur.Biz böylece uygulamalr arasýndaki baðýmlýklarý minimize ediyoruz
 
--Concrete klasöründeki class lar veritabanýndaki tablolara karþýlýk gelir
+-Concrete klasöründeki class lar veritabanýndaki tablolara karþýlýk gelir.Veritabaný tablolarý Entities altýnda concerete de tutulur yani.Concrete klasörüne konulan her class için dataaccess de  abstract klasörü altýna interface eklenir
+
+-Core katmanýnýn .net core'un ismi ile bir alakasý yokdur altyapý iþlerinin yürütüldüðü katmandýr içerisinde diðer katmanlarýn isimlerini klasör olarak tutar.Örneðin dataaccess katmanýný ilgilendiren evrensel kodlar bu klasör altýnda tutulur
+
+-Core katmaný diðer katmanlarý referans almaz
+
