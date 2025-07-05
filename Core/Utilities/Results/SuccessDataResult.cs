@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Core.Utilities.Results
 {
-    public class ErrorDataResult<T> : DataResult<T>
+    public class SuccessDataResult<T> : DataResult<T>
     {
-        public ErrorDataResult(T data, string message) : base(data, true, message)
+        public SuccessDataResult(T data, string message) : base(data, true, message)
         {
 
 
         }
-        public ErrorDataResult(T data) : base(data, true)
+        public SuccessDataResult(T data) : base(data, true)
         {
 
         }
         //burada default çalıştığımız T dir örneğin int vs.
-        public ErrorDataResult(string message) : base(default, true, message)
+        public SuccessDataResult(string message) : base(default, true, message)
         {
 
         }
-        public ErrorDataResult() : base(default, true)
+        public SuccessDataResult() : base(default, true)
         {
 
         }

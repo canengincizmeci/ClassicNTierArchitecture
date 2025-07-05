@@ -13,3 +13,6 @@
 -Constants klasöründe sabitler tutulur
 
 -Core katmaný þirketteki tüm projelerde kullanabileceðin katmandýr.
+
+-Restful yapýlar HTTP ile çalýþýr ihtiyaca göre TCP vs de vardýr
+
