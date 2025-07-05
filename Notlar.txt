@@ -6,3 +6,10 @@
 
 -Core katmaný diðer katmanlarý referans almaz
 
+-Utilities araçlar demek Core katmanýnda oluþturulur ve response mesajlarýný oluþturacaðýmýz için Results klasörü oluþturacaðýz bu result klasörü Utilities klasörü altýnda bulunmalý
+
+-Bir metotda default deðer vermek ileride sorunlara yol açabilir, gelecekteki senaryolarda farklý durumlar oluþtuðunda hala default assign edilebilir
+
+-Constants klasöründe sabitler tutulur
+
+-Core katmaný þirketteki tüm projelerde kullanabileceðin katmandýr.
