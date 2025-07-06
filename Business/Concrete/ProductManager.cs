@@ -1,15 +1,21 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace Business.Concrete
 {
@@ -23,14 +29,22 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
 
-            if (product.ProductName.Length < 2)
-            {
-                //magic string : Bu string değerleri ayrı ayrı metotlar içine "..." olarak yazmak ileride hataya sebep olabilir çünkü ifadeler değişirse her yerde tek tek düzeltmek gerekecekdir
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }
+            //if (product.ProductName.Length < 2)
+            //{
+            //    //magic string : Bu string değerleri ayrı ayrı metotlar içine "..." olarak yazmak ileride hataya sebep olabilir çünkü ifadeler değişirse her yerde tek tek düzeltmek gerekecekdir
+            //    return new ErrorResult(Messages.ProductNameInvalid);
+            //}
+
+            //???Buradaki context aynen efcore gibi iligili bir thread i anlatır?
+          
+
+
+
+
             _productDal.Add(product);
             return new SuccessResult("Ürün Eklendi");
         }
@@ -64,7 +78,7 @@ namespace Business.Concrete
 
         public IDataResult<List<ProductDetailDto>> GetProductDetails()
         {
-            if (DateTime.Now.Hour == 14)
+            if (DateTime.Now.Hour == 21)
             {
                 return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime);
 

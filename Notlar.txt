@@ -16,3 +16,6 @@
 
 -Restful yapýlar HTTP ile çalýþýr ihtiyaca göre TCP vs de vardýr
 
+-Data Anototions Solid S harfine tersdir enttiyler içinde sadece entity olmalý ve DataAnotations sürdürülebilir bir çözüm deðildir
+
+-Bir metot üzerine Log attribute u yazýlýrsa o metot çalýþmadan önce loglama kodlarý çalýþacak
