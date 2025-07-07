@@ -19,3 +19,7 @@
 -Data Anototions Solid S harfine tersdir enttiyler içinde sadece entity olmalý ve DataAnotations sürdürülebilir bir çözüm deðildir
 
 -Bir metot üzerine Log attribute u yazýlýrsa o metot çalýþmadan önce loglama kodlarý çalýþacak
+
+-Loglama örenðin bir kullanýcý sisteme kayýt olamadýðýnda ve müþteri hizmetlerinden talepte bulunduðunda o teknik birime yönledirir teknik birim de loglarý inceler ve kullanýcýnýn ne yaptýðý ne yapmaya çalýþtýðý vs ordan anlaþýlýr.
+
+

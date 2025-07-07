@@ -1,8 +1,10 @@
 ﻿using Business.Abstract;
+using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
@@ -22,17 +24,19 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         //Bir iş sınıfı başka sınıfları new lemez bunun yerine injection kullanıcaz
+        //Bie etntiy menager kendisi hariç başka bir dal'ı enjecte edemez bu yüzden burada ICategoryDal kullanamayız ancak CategoryService ve diğer service sınıfları kullanılabilir
         IProductDal _productDal;
+        ICategoryService _categoryService;
 
-        public ProductManager(IProductDal productDal)
+        public ProductManager(IProductDal productDal, ICategoryService categoryService)
         {
             _productDal = productDal;
+            _categoryService = categoryService;
         }
 
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-
             //if (product.ProductName.Length < 2)
             //{
             //    //magic string : Bu string değerleri ayrı ayrı metotlar içine "..." olarak yazmak ileride hataya sebep olabilir çünkü ifadeler değişirse her yerde tek tek düzeltmek gerekecekdir
@@ -40,10 +44,34 @@ namespace Business.Concrete
             //}
 
             //???Buradaki context aynen efcore gibi iligili bir thread i anlatır?
-          
+
+            //Bir kategoride en fazla 10 ürün olabilir kuralı için bu yazım yanlıştır aynı kural başka yerlerde de kullanılabilir ve tekrar bunu yazmak gerekir bir değişiklik durumunda ise başka yerdeki kodlar değiştirilmediyse istediğimiz katmanlı mimari yapımız olsun iş kurallarının bu şekilde yazımı gene spagetti code yazmamıza ve kötü bir durum oluşmasına sebep olur
+            //var products = _productDal.GetAll(p => p.CategoryId == product.CategoryId);
+            //if (products.Count >= 10)
+            //{
+            //    return new ErrorResult(Messages.ProductCountOfCategoryError);
+            //}
+            //Bu yüzden gidip aşağıya yazdığımız iş kuralı parçacığı metodumuzu kullanırız.(CheckIfProductCountOfCategoryCorrect metodunu yani)
+            //result burda hiçbir hata yoksa null döner hata varasa hatalı logic in kendisi döner
+            IResult result = BusinessRules.Run(CheckIfProductExists(product.ProductName), CheckIfProductCountOfCategoryCorrect(product.ProductId), CheckIfCategoryLimitExceded());
+
+            if (result != null)
+            {
+                return result;
+
+            }
 
 
+            //Bu şekilde kod yazmak yanlış ve gereksiz bir yaklaşımdır
+            //if (!CheckIfProductCountOfCategoryCorrect(product.ProductId).Success)
+            //{
+            //    return new ErrorResult(Messages.ProductCountOfCategoryError);
 
+            //}
+            //if (!CheckIfProductExists(product.ProductName).Success)
+            //{
+            //    return new ErrorResult(Messages.ProductNameExistsErorr);
+            //}
 
             _productDal.Add(product);
             return new SuccessResult("Ürün Eklendi");
@@ -84,6 +112,48 @@ namespace Business.Concrete
 
             }
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
+        }
+        [ValidationAspect(typeof(ProductValidator))]
+        public IResult Update(Product product)
+        {
+            List<Product> products = _productDal.GetAll(p => p.CategoryId == product.CategoryId);
+            if (products.Count >= 10)
+            {
+                return new ErrorResult(Messages.ProductCountOfCategoryError);
+            }
+            throw new NotImplementedException();
+        }
+        //iş kuralı parçacıkları private olarak yazılır
+        private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
+        {
+            var products = _productDal.GetAll(p => p.CategoryId == categoryId);
+            if (products.Count >= 10)
+            {
+                return new ErrorResult(Messages.ProductCountOfCategoryError);
+            }
+            return new SuccessResult();
+
+        }
+        private IResult CheckIfProductExists(string productName)
+        {
+            var result = _productDal.GetAll(p => p.ProductName == productName).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.ProductNameExistsErorr);
+            }
+            return new SuccessResult();
+
+        }
+        private IResult CheckIfCategoryLimitExceded()
+        {
+            var result = _categoryService.GetAll();
+            if (result.Data.Count > 15)
+            {
+                return new ErrorResult(Messages.CategoryLimitExceded);
+            }
+
+
+            return new SuccessResult();
         }
     }
 }
