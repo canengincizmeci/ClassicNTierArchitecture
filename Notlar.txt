@@ -22,4 +22,13 @@
 
 -Loglama örenðin bir kullanýcý sisteme kayýt olamadýðýnda ve müþteri hizmetlerinden talepte bulunduðunda o teknik birime yönledirir teknik birim de loglarý inceler ve kullanýcýnýn ne yaptýðý ne yapmaya çalýþtýðý vs ordan anlaþýlýr.
 
+-Encryption,Hashing bunlar bir datayý karþý taraf okuyamasýn diye yapýlan þeylerdir.Örneðin kullanýcaýn girdiði 1234@1234 þifresi MD5 yada SHA1 þifreleme algoritmalarýyla geri dönüþü olmayacak þekilde hashlenir ve mesela BDX3-5fggfsg-fdsfsdf gibi formatlarda tutulur.Kullanýcýnýn diðer girþlerinde email ine bakarak ilgili emaile sahip kiþinin böyle bir hash i var mý diye kontrol edilir.Kullanýcý dan güvenli bir þifre istememizin sebebi rainbow table larda karþýlýðýnýn olmamasý ve tahmin edilememesi içinir.Rainbow table sürekli hash üretip ilgili hashi bulabildik mi diye bakýlan hack yöntemidir haslendmiþ veriler geri döndürülemesede rainbow table ile yýllar süren çalýþma sonucu geri döndürülebilir.
+
+-Örneðin çok özel karakter içeren þifreler daha güvenlidir 1aSA*-+asfasd/5665d3.a4 ama her kullanýcýdan bu tarz þifreler isteyemeyiz her kullanýcýnýn bilgisayar bilgisi ayný deðildir bu yüzden salting gibi þeyler yapabiliriz 
+
+-Salting veriye birþeyler ekleyerek  sonra hashing yapmaktýr
+
+-nesneler tekil yazýlýr,db tablolarý s takýsý ile yazýlýr
+
+
 
