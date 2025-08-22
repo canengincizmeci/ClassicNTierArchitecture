@@ -12,7 +12,7 @@ namespace Core.Utilities.Business
         //params ile istediğimiz kadar IResult tipinde veri verebiliriz
         public static IResult Run(params IResult[] logics)
         {
-            foreach (var logic in logics)
+            foreach (var logic in logics) 
             {
                 //Başarısız olan iş kuralları business tarafına geri gönderilir ve böylece hata bildirimi yapılır
                 if (!logic.Success)

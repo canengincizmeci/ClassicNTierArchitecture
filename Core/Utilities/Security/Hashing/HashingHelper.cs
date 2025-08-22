@@ -22,14 +22,20 @@ namespace Core.Utilities.Security.Hashing
 
         public static bool VerifyPasswordHash(string pasword, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
             {
-               
-
+                var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(pasword));
+                for (int i = 0; i < computeHash.Length; i++)
+                {
+                    if (computeHash[i] != passwordHash[i])
+                    {
+                        return false;
+                    }
+                }
             }
-
-
+            return true;
         }
+
 
 
 

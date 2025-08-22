@@ -32,3 +32,19 @@
 
 
 
+postman istek atarken kullanýlacaklar
+    /api/products/add
+    {
+       
+        "productName": "Asdsdann",
+        "unitPrice": 12.1235,
+        "unitsInStock": 12,
+        "categoryId": 1
+    }
+    /api/auth/login
+    {
+        "firstName":"sann",
+        "lastName": "dsad",
+        "email": "engindsad4@engin.com",
+        "password": "12dsad2345"
+    }

@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
@@ -21,6 +22,7 @@ using ValidationException = FluentValidation.ValidationException;
 
 namespace Business.Concrete
 {
+    
     public class ProductManager : IProductService
     {
         //Bir iş sınıfı başka sınıfları new lemez bunun yerine injection kullanıcaz
@@ -35,7 +37,7 @@ namespace Business.Concrete
         }
 
         //Claim
-        //[SecuredOperation("product.add,admin")]
+        [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
