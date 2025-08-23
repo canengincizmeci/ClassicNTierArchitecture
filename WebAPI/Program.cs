@@ -17,6 +17,7 @@ using Core.DependencyResolvers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
@@ -88,6 +89,18 @@ new CoreModule()
 builder.Services.AddControllers();
 //builder.Services.AddSingleton<IProductService, ProductManager>();
 //builder.Services.AddSingleton<IProductDal, EfProductDal>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000") // React tarafýnýn adresi
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
+
 
 // Swagger/OpenAPI servislerini ekle
 builder.Services.AddEndpointsApiExplorer();
@@ -95,6 +108,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseMiddleware<Core.Extensions.ExceptionMiddleware>();
 // Geliþtirme ortamýnda Swagger UI göster
 if (app.Environment.IsDevelopment())
 {
@@ -103,6 +117,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowReactApp");
 
 app.UseAuthentication();
 app.UseAuthorization();
