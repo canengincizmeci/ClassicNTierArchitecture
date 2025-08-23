@@ -3,6 +3,8 @@ using Business.BusinessAspects.Autofac;
 using Business.CCS;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -22,7 +24,7 @@ using ValidationException = FluentValidation.ValidationException;
 
 namespace Business.Concrete
 {
-    
+
     public class ProductManager : IProductService
     {
         //Bir iş sınıfı başka sınıfları new lemez bunun yerine injection kullanıcaz
@@ -39,6 +41,7 @@ namespace Business.Concrete
         //Claim
         [SecuredOperation("product.add,admin")]
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IResult Add(Product product)
         {
             //if (product.ProductName.Length < 2)
@@ -80,10 +83,10 @@ namespace Business.Concrete
             _productDal.Add(product);
             return new SuccessResult("Ürün Eklendi");
         }
-
+        [CacheAspect]
         public IDataResult<List<Product>> GetAll()
         {
-            if (DateTime.Now.Hour == 22)
+            if (DateTime.Now.Hour == 18)
             {
                 //MaintenanceTime=Bakım zamanı
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
@@ -97,7 +100,8 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
-
+        [CacheAspect]
+        [PerformanceAspect(5)]//Bu metotların çalışması 5 sn'yi geçerse beni uyar demek
         public IDataResult<Product> GetById(int productId)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == productId));
@@ -118,6 +122,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
         [ValidationAspect(typeof(ProductValidator))]
+        [CacheRemoveAspect("IProductService.Get")]//Product update olursa ram de tutulan cacheldiğimiz tüm get verileri remove edilir çünkü artık disk de veritabanına kaydedilen veride değişiklik oldu
         public IResult Update(Product product)
         {
             List<Product> products = _productDal.GetAll(p => p.CategoryId == product.CategoryId);
@@ -127,6 +132,17 @@ namespace Business.Concrete
             }
             throw new NotImplementedException();
         }
+
+        //[TransactionScopeAspect]
+        //public IResult AddTransactionalTest(Product product)
+        //{
+        //    Add(product);
+        //    Add(product);
+        //}
+
+
+
+
         //iş kuralı parçacıkları private olarak yazılır
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
         {
