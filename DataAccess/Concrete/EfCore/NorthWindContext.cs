@@ -16,10 +16,9 @@ namespace DataAccess.Concrete.EfCore
         {
             //Gerçek projede böyle olur     optionsBuilder.UseSqlServer(@"Server=175.45.2.12");
 
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-CGDTBSJ\MSSQLSERVER5;Database=Northwind_ing;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=*****-***\***;Database=Northwind_ing;Trusted_Connection=True;");
 
-            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-CGDTBSJ\\MSSQLSERVER5;Database=Northwind_ing;Trusted_Connection=True;");
-            ////optionsBuilder.UseSqlServer(@"Server=DESKTOP-CGDTBSJ;Database=Northwind_ing;Trusted_Connection=True;");
+     
 
 
         }
