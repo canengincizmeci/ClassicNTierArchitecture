@@ -1,1 +1,1 @@
-# Architect120525
+I try to build my own architecture 
